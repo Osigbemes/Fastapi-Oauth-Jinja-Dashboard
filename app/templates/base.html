@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>FastAPI OAuth Demo</title>
+<style>
+body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; padding: 2rem; }
+nav { display:flex; gap:1rem; margin-bottom:1rem; }
+.card { border:1px solid #eee; padding:1rem; border-radius:8px; max-width:800px; }
+</style>
+</head>
+<body>
+<nav>
+<a href="/">Home</a>
+{% if user %}
+<a href="/dashboard">Dashboard</a>
+<a href="/logout">Logout</a>
+<span>Signed in as {{ user.name or user.email }}</span>
+{% else %}
