@@ -8,8 +8,8 @@ class User(Base):
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, index=True, nullable=True)
     name = Column(String, nullable=True)
-    provider = Column(String, nullable=False) # e.g., 'google' or 'github'
-    provider_id = Column(String, nullable=False, index=True) # provider unique id
+    provider = Column(String, nullable=False) 
+    provider_id = Column(String, nullable=False, index=True) 
 
 
 class Metric(Base):

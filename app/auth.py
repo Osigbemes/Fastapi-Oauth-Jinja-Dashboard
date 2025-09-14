@@ -1,30 +1,25 @@
 import os
 from authlib.integrations.starlette_client import OAuth
 from starlette.config import Config
+from decouple import config
+
+oauth = OAuth()
 
 
-config = Config('.env')
+BASE_URL = config('BASE_URL', 'http://localhost:8000')
+GOOGLE_REDIRECT_URI = config("GOOGLE_REDIRECT_URI")
 
-
-oauth = OAuth(config)
-
-
-BASE_URL = os.getenv('BASE_URL', 'http://localhost:8000')
-
-
-# Register providers (Google and GitHub as examples)
-# Make sure you have client ID/secret in .env
-
-
-if os.getenv('GOOGLE_CLIENT_ID') and os.getenv('GOOGLE_CLIENT_SECRET'):
+if config('GOOGLE_CLIENT_ID') and config('GOOGLE_CLIENT_SECRET'):
     oauth.register(
     name='google',
-    client_id=os.getenv('GOOGLE_CLIENT_ID'),
-    client_secret=os.getenv('GOOGLE_CLIENT_SECRET'),
+    client_id=config('GOOGLE_CLIENT_ID'),
+    client_secret=config('GOOGLE_CLIENT_SECRET'),
     server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
-    client_kwargs={'scope': 'openid email profile'},
+    client_kwargs={
+        "scope": "openid email profile https://www.googleapis.com/auth/drive.metadata.readonly https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/gmail.readonly"
+    },
+    redirect_uri=GOOGLE_REDIRECT_URI
     )
-
 
 if os.getenv('GITHUB_CLIENT_ID') and os.getenv('GITHUB_CLIENT_SECRET'):
     oauth.register(
